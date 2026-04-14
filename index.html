@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Caption Generator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Poppins:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Poppins:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+    rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
-      --black:      #1a1918;
-      --bg:         #faf7f5;
-      --sage:       #7b8f6d;
+      --black: #1a1918;
+      --bg: #faf7f5;
+      --sage: #7b8f6d;
       --sage-light: #b5c4aa;
-      --sage-dim:   #eef1eb;
-      --border:     #ddd8d3;
-      --muted:      #7a756f;
+      --sage-dim: #eef1eb;
+      --border: #ddd8d3;
+      --muted: #7a756f;
     }
 
     body {
@@ -85,7 +94,8 @@
     }
 
     /* ── Inputs ── */
-    textarea, input[type="text"] {
+    textarea,
+    input[type="text"] {
       width: 100%;
       font-family: 'Poppins', sans-serif;
       font-size: .875rem;
@@ -99,11 +109,14 @@
       outline: none;
     }
 
-    textarea:focus, input[type="text"]:focus {
+    textarea:focus,
+    input[type="text"]:focus {
       border-color: var(--sage);
     }
 
-    textarea { line-height: 1.6; }
+    textarea {
+      line-height: 1.6;
+    }
 
     /* ── Model row ── */
     .model-row {
@@ -144,22 +157,38 @@
       transition: background .2s, opacity .2s;
     }
 
-    .btn-generate:hover:not(:disabled) { background: #6a7d5f; }
-    .btn-generate:disabled { opacity: .6; cursor: not-allowed; }
+    .btn-generate:hover:not(:disabled) {
+      background: #6a7d5f;
+    }
+
+    .btn-generate:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
 
     .spinner {
-      width: 18px; height: 18px;
-      border: 2.5px solid rgba(255,255,255,.4);
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(255, 255, 255, .4);
       border-top-color: #fff;
       border-radius: 50%;
       animation: spin .7s linear infinite;
       display: none;
     }
 
-    .btn-generate.loading .spinner { display: block; }
-    .btn-generate.loading .btn-label { opacity: .7; }
+    .btn-generate.loading .spinner {
+      display: block;
+    }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn-generate.loading .btn-label {
+      opacity: .7;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
     /* ── Error banner ── */
     .error-banner {
@@ -173,7 +202,9 @@
       line-height: 1.5;
     }
 
-    .error-banner.visible { display: block; }
+    .error-banner.visible {
+      display: block;
+    }
 
     /* ── Results ── */
     .results {
@@ -182,7 +213,9 @@
       gap: 1.25rem;
     }
 
-    .results.visible { display: flex; }
+    .results.visible {
+      display: flex;
+    }
 
     .result-section h2 {
       font-family: 'Young Serif', serif;
@@ -223,7 +256,10 @@
       margin-top: .35rem;
     }
 
-    .char-count.over { color: #c0392b; font-weight: 600; }
+    .char-count.over {
+      color: #c0392b;
+      font-weight: 600;
+    }
 
     /* ── Copy button ── */
     .copy-btn {
@@ -242,8 +278,15 @@
       transition: border-color .2s, color .2s;
     }
 
-    .copy-btn:hover { border-color: var(--sage); color: var(--sage); }
-    .copy-btn.copied { border-color: var(--sage); color: var(--sage); }
+    .copy-btn:hover {
+      border-color: var(--sage);
+      color: var(--sage);
+    }
+
+    .copy-btn.copied {
+      border-color: var(--sage);
+      color: var(--sage);
+    }
 
     /* ── Hashtags ── */
     .hashtag-list {
@@ -273,9 +316,17 @@
       color: #fff;
     }
 
-    .hashtag-chip.rank-top { opacity: 1; }
-    .hashtag-chip.rank-mid { opacity: .85; }
-    .hashtag-chip.rank-low { opacity: .65; }
+    .hashtag-chip.rank-top {
+      opacity: 1;
+    }
+
+    .hashtag-chip.rank-mid {
+      opacity: .85;
+    }
+
+    .hashtag-chip.rank-low {
+      opacity: .65;
+    }
 
     .hashtag-hint {
       font-size: .75rem;
@@ -300,17 +351,20 @@
       line-height: 1.6;
     }
 
-    .cors-note strong { color: var(--black); }
+    .cors-note strong {
+      color: var(--black);
+    }
 
     code {
       font-family: 'Courier New', monospace;
-      background: rgba(0,0,0,.07);
+      background: rgba(0, 0, 0, .07);
       padding: .1em .35em;
       border-radius: 3px;
       font-size: .85em;
     }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -324,7 +378,7 @@
     <div class="card">
       <div class="model-row">
         <label for="model">Ollama model</label>
-        <input type="text" id="model" value="gemma3" placeholder="e.g. gemma3, llama3, mistral" />
+        <input type="text" id="model" value="gemma4:e2b" placeholder="e.g. gemma3, llama3, mistral" />
       </div>
     </div>
 
@@ -365,7 +419,11 @@ Example 2: New week, same mission: make it count. Drop a 🔥 if you're with us.
         <h2>Long-form Caption <span class="platform-tag">Instagram · Facebook · LinkedIn</span></h2>
         <div class="caption-box" id="longFormCaption"></div>
         <button class="copy-btn" onclick="copyText('longFormCaption', this)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          </svg>
           Copy
         </button>
       </div>
@@ -378,7 +436,11 @@ Example 2: New week, same mission: make it count. Drop a 🔥 if you're with us.
         <div class="caption-box" id="twitterCaption"></div>
         <p class="char-count" id="twitterCharCount"></p>
         <button class="copy-btn" onclick="copyText('twitterCaption', this)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          </svg>
           Copy
         </button>
       </div>
@@ -391,7 +453,11 @@ Example 2: New week, same mission: make it count. Drop a 🔥 if you're with us.
         <div class="hashtag-list" id="hashtagList"></div>
         <p class="hashtag-hint">Click a hashtag to copy it. Faded chips = less commonly used.</p>
         <button class="copy-btn" id="copyAllHashtags" onclick="copyAllHashtags(this)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          </svg>
           Copy all hashtags
         </button>
       </div>
@@ -446,23 +512,23 @@ HASHTAGS:
     }
 
     function parseResponse(text) {
-      const lfMatch  = text.match(/LONG_FORM:\s*([\s\S]*?)(?=\nTWITTER:)/i);
-      const twMatch  = text.match(/TWITTER:\s*([\s\S]*?)(?=\nHASHTAGS:)/i);
-      const htMatch  = text.match(/HASHTAGS:\s*([\s\S]*)$/i);
+      const lfMatch = text.match(/LONG_FORM:\s*([\s\S]*?)(?=\nTWITTER:)/i);
+      const twMatch = text.match(/TWITTER:\s*([\s\S]*?)(?=\nHASHTAGS:)/i);
+      const htMatch = text.match(/HASHTAGS:\s*([\s\S]*)$/i);
 
       return {
-        longForm:  lfMatch ? lfMatch[1].trim() : '',
-        twitter:   twMatch ? twMatch[1].trim() : '',
-        hashtags:  htMatch
+        longForm: lfMatch ? lfMatch[1].trim() : '',
+        twitter: twMatch ? twMatch[1].trim() : '',
+        hashtags: htMatch
           ? htMatch[1].trim().split(/\s+/).filter(t => t.startsWith('#')).slice(0, 20)
           : []
       };
     }
 
     async function generate() {
-      const model   = document.getElementById('model').value.trim() || 'gemma3';
+      const model = document.getElementById('model').value.trim() || 'gemma3';
       const examples = document.getElementById('examples').value;
-      const article  = document.getElementById('article').value.trim();
+      const article = document.getElementById('article').value.trim();
 
       hideError();
       hideResults();
@@ -587,4 +653,5 @@ HASHTAGS:
     }
   </script>
 </body>
+
 </html>
